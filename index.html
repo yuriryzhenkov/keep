@@ -180,7 +180,7 @@ body{display:flex;flex-direction:column}
 .si.del  .si-del{background:rgba(186,26,26,0.12);color:var(--md-error)}
 
 .scope-foot{padding:8px 16px 16px;flex-shrink:0;display:flex;flex-direction:row;gap:16px}
-.apply-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:var(--md-primary);color:var(--md-on-primary);font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s;box-shadow:0 2px 16px rgba(59,44,0,0.28)}
+.apply-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:var(--md-primary);color:var(--md-on-primary);font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s}
 .apply-btn:active{opacity:.85}
 .apply-btn:disabled{opacity:.38;cursor:default;box-shadow:none}
 .cancel-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:rgba(30,27,22,0.08);font-family:var(--font);font-size:15px;font-weight:500;color:var(--md-on-surface-variant);cursor:pointer;transition:opacity .15s}
@@ -439,8 +439,7 @@ let pendingActions = [];
 let recognition = null;
 let isRec = false;
 let finalTranscript = '';
-let af, wt = 0, wa = 0, wp = 0, waveAmps = [], waveFrame = 0;
-let audioCtx = null, analyserNode = null, analyserData = null;
+let af, wt = 0, wa = 0, waveAmps = [], waveFrame = 0, wtDecayTimer = null;
 
 // ── STORAGE ──
 function saveNotes() {
@@ -608,6 +607,9 @@ function startRec() {
       else interim += e.results[i][0].transcript;
     }
     document.getElementById('t-txt').textContent = (finalTranscript + interim).trim();
+    // Burst wave yellow on each speech event
+    wt = 13; clearTimeout(wtDecayTimer);
+    wtDecayTimer = setTimeout(() => { wt = 0; }, 700);
   };
 
   recognition.onerror = (e) => {
@@ -627,14 +629,14 @@ function startRec() {
     }
   };
 
-  try { recognition.start(); setupAnalyser(); } catch(e) {
+  try { recognition.start(); } catch(e) {
     document.getElementById('t-ph').textContent = 'Could not start mic. Try refreshing.';
   }
 }
 
 function stopRec() {
   if (!isRec) return;
-  isRec = false; wt = 0;
+  isRec = false; wt = 0; clearTimeout(wtDecayTimer);
   setPauseIcon(true);
   document.getElementById('t-cur').style.display = 'none';
   if (recognition) { try { recognition.stop(); } catch(e) {} }
@@ -652,16 +654,31 @@ async function finishVoice() {
   cancelAnimationFrame(af);
   document.getElementById('finish-btn').disabled = true;
 
-  closeMorph();
+  // Fade vc out without collapsing morph sheet back to pill
+  const vc = document.getElementById('vc');
+  const ms = document.getElementById('morph-sheet');
+  vc.style.transition = 'opacity .15s';
+  vc.style.opacity = '0';
+  vc.style.pointerEvents = 'none';
+
   setTimeout(() => {
+    // Hide morph sheet silently (no collapse animation)
+    ms.classList.remove('visible','expanding','open','collapsing');
+    vc.style.transition = ''; vc.style.opacity = '';
+
+    // Show scope sheet instantly at its position (no slide-up)
+    const ss = document.getElementById('scope-sheet');
+    ss.style.transition = 'none';
+    ss.classList.add('show');
+    requestAnimationFrame(() => { ss.style.transition = ''; });
+
     document.getElementById('slist').innerHTML = '';
     document.getElementById('proc-label').textContent = 'Thinking…';
     document.getElementById('proc-overlay').classList.add('show');
     document.getElementById('proc-spinner').style.display = 'flex';
     document.getElementById('proc-success').classList.remove('show');
     document.getElementById('applybtn').disabled = true;
-    show('scope-sheet');
-  }, 380);
+  }, 180);
 
   try {
     const result = await askClaude(transcript);
@@ -855,44 +872,18 @@ function rcv() {
   waveAmps = []; waveFrame = 0;
 }
 
-async function setupAnalyser() {
-  if (audioCtx) return;
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyserNode = audioCtx.createAnalyser();
-    analyserNode.fftSize = 64;
-    analyserNode.smoothingTimeConstant = 0.5;
-    analyserData = new Uint8Array(analyserNode.frequencyBinCount);
-    audioCtx.createMediaStreamSource(stream).connect(analyserNode);
-  } catch(e) {}
-}
-
-function getAudioLevel() {
-  if (!analyserNode || !isRec) return 0;
-  analyserNode.getByteFrequencyData(analyserData);
-  let sum = 0;
-  for (let i = 0; i < analyserData.length; i++) sum += analyserData[i];
-  return (sum / analyserData.length) / 255; // 0–1
-}
-
 function dw() {
   const w = cv.offsetWidth, h = cv.offsetHeight;
   cx.clearRect(0, 0, w, h);
   waveFrame++;
-
-  // Real mic level if analyser available, else fall back to wt flag
-  const micLevel = getAudioLevel();
-  const target = analyserNode ? micLevel * 13 : (isRec ? wt : 0);
-  wa += (target - wa) * .15;
+  wa += (wt - wa) * .12;
 
   const barW = 3, gap = 2, total = barW + gap;
   const bars = Math.floor(w / total);
 
-  // Push new bar every 4 frames → ~15 bars/sec at 60fps (natural scroll speed)
+  // Push new bar every 4 frames (~15 bars/sec)
   if (waveFrame % 4 === 0) {
-    const norm = Math.min(1, wa / 13);
-    waveAmps.push(norm);
+    waveAmps.push(Math.min(1, wa / 13));
     if (waveAmps.length > bars) waveAmps.shift();
   }
   while (waveAmps.length < bars) waveAmps.unshift(0);
@@ -901,7 +892,7 @@ function dw() {
     const x = i * total + 1;
     const a = waveAmps[i] || 0;
     const bh = Math.max(2, a * (h - 4) + 2);
-    cx.fillStyle = a > 0.28 ? 'rgba(255,207,0,0.9)' : 'rgba(30,27,19,0.13)';
+    cx.fillStyle = a > 0.25 ? 'rgba(255,207,0,0.9)' : 'rgba(30,27,19,0.13)';
     cx.beginPath();
     if (cx.roundRect) cx.roundRect(x, (h - bh) / 2, barW, bh, 1.5);
     else cx.rect(x, (h - bh) / 2, barW, bh);
@@ -930,6 +921,10 @@ function closeAll() {
   closeMorph();
   ['scope-sheet','drawer'].forEach(hide);
   document.getElementById('backdrop').classList.remove('show');
+  // Always restore FABs (may have been hidden by finishVoice transition)
+  const pill = document.getElementById('ai-pill'), plus = document.getElementById('plus-btn');
+  pill.style.opacity = '1'; pill.style.pointerEvents = '';
+  plus.style.opacity = '1'; plus.style.pointerEvents = '';
   document.getElementById('proc-overlay').classList.remove('show');
   document.getElementById('proc-spinner').style.display = 'flex';
   document.getElementById('proc-success').classList.remove('show');
