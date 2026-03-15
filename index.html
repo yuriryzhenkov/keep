@@ -124,7 +124,7 @@ body{display:flex;flex-direction:column}
 .tcursor{display:inline-block;width:2px;height:18px;background:var(--md-primary);animation:blink 1s infinite;vertical-align:middle;margin-left:2px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .wave-wrap{padding:0;height:32px;display:flex;align-items:center;flex-shrink:0}
-#wc{width:100%;height:24px}
+#wc{width:100%;height:24px;pointer-events:none}
 .voice-ctrls{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:8px 16px 16px}
 .pause-btn{width:var(--bs);height:var(--bs);border-radius:50%;background:var(--md-secondary-container);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-secondary-container);flex-shrink:0;transition:transform .18s}
 .pause-btn:active{transform:scale(0.93)}
@@ -509,6 +509,9 @@ function openVoice() {
   const ms = document.getElementById('morph-sheet');
 
   finalTranscript = '';
+  // Reset any inline styles left from finishVoice transition
+  const vc = document.getElementById('vc');
+  vc.style.opacity = ''; vc.style.pointerEvents = ''; vc.style.transition = '';
   document.getElementById('t-ph').style.display = 'inline';
   document.getElementById('t-txt').style.display = 'none';
   document.getElementById('t-txt').textContent = '';
@@ -664,7 +667,7 @@ async function finishVoice() {
   setTimeout(() => {
     // Hide morph sheet silently (no collapse animation)
     ms.classList.remove('visible','expanding','open','collapsing');
-    vc.style.transition = ''; vc.style.opacity = '';
+    vc.style.transition = ''; vc.style.opacity = ''; vc.style.pointerEvents = '';
 
     // Show scope sheet instantly at its position (no slide-up)
     const ss = document.getElementById('scope-sheet');
@@ -881,9 +884,12 @@ function dw() {
   const barW = 3, gap = 2, total = barW + gap;
   const bars = Math.floor(w / total);
 
-  // Push new bar every 4 frames (~15 bars/sec)
+  // Push new bar every 4 frames (~15 bars/sec) with random height variation
   if (waveFrame % 4 === 0) {
-    waveAmps.push(Math.min(1, wa / 13));
+    const base = Math.min(1, wa / 13);
+    // Random variation per bar creates fence/speech silhouette look
+    const variation = 0.12 + Math.random() * 0.88;
+    waveAmps.push(base * variation);
     if (waveAmps.length > bars) waveAmps.shift();
   }
   while (waveAmps.length < bars) waveAmps.unshift(0);
