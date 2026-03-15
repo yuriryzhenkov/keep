@@ -123,12 +123,12 @@ body{display:flex;flex-direction:column}
 .t-placeholder{color:var(--t3);font-size:15px}
 .tcursor{display:inline-block;width:2px;height:18px;background:var(--md-primary);animation:blink 1s infinite;vertical-align:middle;margin-left:2px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.wave-wrap{padding:0 16px;height:32px;display:flex;align-items:center;flex-shrink:0}
+.wave-wrap{padding:0;height:32px;display:flex;align-items:center;flex-shrink:0}
 #wc{width:100%;height:24px}
 .voice-ctrls{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:8px 16px 16px}
 .pause-btn{width:var(--bs);height:var(--bs);border-radius:50%;background:var(--md-secondary-container);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-secondary-container);flex-shrink:0;transition:transform .18s}
 .pause-btn:active{transform:scale(0.93)}
-.finish-btn{flex:none;height:var(--bs);border-radius:calc(var(--bs)/2);background:var(--md-primary);color:var(--md-on-primary);border:none;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:transform .18s;box-shadow:0 2px 16px rgba(59,44,0,0.28)}
+.finish-btn{flex:none;height:var(--bs);border-radius:calc(var(--bs)/2);background:var(--md-primary);color:var(--md-on-primary);border:none;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:transform .18s}
 .finish-btn:active{transform:scale(0.97);opacity:.9}
 .finish-btn:disabled{opacity:.5;cursor:default}
 
@@ -235,6 +235,19 @@ body{display:flex;flex-direction:column}
 .drawer-item svg{flex-shrink:0;color:var(--t2)}
 .drawer-sep{height:1px;background:var(--border);margin:8px 0}
 .drawer-section-lbl{padding:8px 20px 4px;font-size:11px;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
+
+/* ══ M3 HOVER (desktop only) ══ */
+@media(hover:hover){
+  .finish-btn:hover,.apply-btn:hover{box-shadow:inset 0 0 0 9999px rgba(59,44,0,0.08)}
+  .plus-btn:hover{box-shadow:inset 0 0 0 9999px rgba(59,44,0,0.08)}
+  .pause-btn:hover{box-shadow:inset 0 0 0 9999px rgba(33,27,0,0.10)}
+  .cancel-btn:hover{background:rgba(30,27,19,0.13)}
+  .ai-pill:hover{box-shadow:0 4px 20px rgba(0,0,0,0.16),0 1px 6px rgba(0,0,0,0.09)}
+  .vc-close:hover,.sheet-close:hover{background:rgba(30,27,19,0.08)}
+  .menu-btn:hover{background:rgba(30,27,19,0.08)}
+  .si-del:hover{opacity:.75}
+  .drawer-item:hover:not(.active){background:var(--md-secondary-container)}
+}
 </style>
 </head>
 <body>
@@ -426,7 +439,8 @@ let pendingActions = [];
 let recognition = null;
 let isRec = false;
 let finalTranscript = '';
-let af, wt = 0, wa = 0, wp = 0, waveAmps = [];
+let af, wt = 0, wa = 0, wp = 0, waveAmps = [], waveFrame = 0;
+let audioCtx = null, analyserNode = null, analyserData = null;
 
 // ── STORAGE ──
 function saveNotes() {
@@ -613,7 +627,7 @@ function startRec() {
     }
   };
 
-  try { recognition.start(); } catch(e) {
+  try { recognition.start(); setupAnalyser(); } catch(e) {
     document.getElementById('t-ph').textContent = 'Could not start mic. Try refreshing.';
   }
 }
@@ -838,30 +852,56 @@ function rcv() {
   cv.width = cv.offsetWidth * devicePixelRatio;
   cv.height = cv.offsetHeight * devicePixelRatio;
   cx.scale(devicePixelRatio, devicePixelRatio);
-  waveAmps = [];
+  waveAmps = []; waveFrame = 0;
 }
+
+async function setupAnalyser() {
+  if (audioCtx) return;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyserNode = audioCtx.createAnalyser();
+    analyserNode.fftSize = 64;
+    analyserNode.smoothingTimeConstant = 0.5;
+    analyserData = new Uint8Array(analyserNode.frequencyBinCount);
+    audioCtx.createMediaStreamSource(stream).connect(analyserNode);
+  } catch(e) {}
+}
+
+function getAudioLevel() {
+  if (!analyserNode || !isRec) return 0;
+  analyserNode.getByteFrequencyData(analyserData);
+  let sum = 0;
+  for (let i = 0; i < analyserData.length; i++) sum += analyserData[i];
+  return (sum / analyserData.length) / 255; // 0–1
+}
+
 function dw() {
   const w = cv.offsetWidth, h = cv.offsetHeight;
   cx.clearRect(0, 0, w, h);
-  wa += (wt - wa) * .10;
-  wp += 0.05;
+  waveFrame++;
+
+  // Real mic level if analyser available, else fall back to wt flag
+  const micLevel = getAudioLevel();
+  const target = analyserNode ? micLevel * 13 : (isRec ? wt : 0);
+  wa += (target - wa) * .15;
 
   const barW = 3, gap = 2, total = barW + gap;
   const bars = Math.floor(w / total);
 
-  // Scroll history left, push current amplitude at right
-  const variation = Math.sin(wp * 3.5) * 0.35 + Math.sin(wp * 7.1) * 0.15 + 0.5;
-  const norm = isRec ? Math.min(1, (wa / 13) * variation * 1.6) : (wa / 13) * 0.1;
-  waveAmps.push(norm);
-  if (waveAmps.length > bars) waveAmps.shift();
+  // Push new bar every 4 frames → ~15 bars/sec at 60fps (natural scroll speed)
+  if (waveFrame % 4 === 0) {
+    const norm = Math.min(1, wa / 13);
+    waveAmps.push(norm);
+    if (waveAmps.length > bars) waveAmps.shift();
+  }
   while (waveAmps.length < bars) waveAmps.unshift(0);
 
   for (let i = 0; i < bars; i++) {
     const x = i * total + 1;
     const a = waveAmps[i] || 0;
     const bh = Math.max(2, a * (h - 4) + 2);
-    // Yellow from theme for active bars, muted outline for idle
-    cx.fillStyle = a > 0.30 ? 'rgba(255,207,0,0.85)' : 'rgba(30,27,19,0.13)';
+    cx.fillStyle = a > 0.28 ? 'rgba(255,207,0,0.9)' : 'rgba(30,27,19,0.13)';
     cx.beginPath();
     if (cx.roundRect) cx.roundRect(x, (h - bh) / 2, barW, bh, 1.5);
     else cx.rect(x, (h - bh) / 2, barW, bh);
