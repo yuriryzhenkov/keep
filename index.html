@@ -1451,6 +1451,7 @@ Rules:
 - CRITICAL: Only populate checklist items when the user explicitly dictates specific items OR explicitly asks you to generate/suggest/fill them (e.g. "generate items", "add some items", "fill it with suggestions"). If the user simply asks to create a note or list by name (e.g. "create Trip to Belarus checklist"), create it with items: []. Never invent items on your own. When items are provided or requested, write them as real meaningful content — never use placeholders like "Item 1", "Item 2".
 - For text notes: type="text", put content in body
 - When merging/collecting notes: create a new combined note, delete the originals
+- CRITICAL DATA PRESERVATION RULE: Never silently drop any user data. Notes may be reorganised, merged, restyled, or moved at the user's request — but every field (title, body, items, imgData, type, color) must be preserved unless the user explicitly asks to remove it. If a note has an image (type="image" or imgData is set), the merged/updated note must keep type="image" and the imgData value. Data loss without explicit user instruction is never acceptable.
 - To remove completed items: update the note's items array without done=true items
 - Match notes by title or content keywords
 - Return ONLY valid JSON, no markdown fences
