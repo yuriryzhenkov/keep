@@ -701,6 +701,9 @@ let finalTranscript = '';
 let isUserEditing = false;
 let editTimer = null;
 let suppressInputEvent = false;
+let userBase = '';        // text the user left in the field before resuming recording
+let resultOffset = 0;    // skip e.results before this index (from before user's edit)
+let lastResultCount = 0; // e.results.length at the last onresult call
 let af, wt = 0, wa = 0, waveAmps = [], waveFrame = 0, wtDecayTimer = null;
 let voiceSheetH = 310; // saved so returnToVoice can animate back
 let editingNoteId = null;
@@ -1186,7 +1189,7 @@ function openVoice(triggerEl) {
   const plus = document.getElementById('plus-btn');
   const ms = document.getElementById('morph-sheet');
 
-  finalTranscript = '';
+  finalTranscript = ''; userBase = ''; resultOffset = 0; lastResultCount = 0;
   ms.classList.remove('scope'); // ensure clean state on re-open
   const vc = document.getElementById('vc');
   vc.style.opacity = '0'; vc.style.pointerEvents = 'none'; vc.style.transition = 'none';
@@ -1303,12 +1306,14 @@ function makeRecognition() {
   };
 
   r.onresult = (e) => {
+    let newFinal = '';
     let interim = '';
-    finalTranscript = '';
-    for (let i = 0; i < e.results.length; i++) {
-      if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
+    for (let i = resultOffset; i < e.results.length; i++) {
+      if (e.results[i].isFinal) newFinal += e.results[i][0].transcript + ' ';
       else interim += e.results[i][0].transcript;
     }
+    lastResultCount = e.results.length;
+    finalTranscript = userBase ? userBase.trimEnd() + ' ' + newFinal : newFinal;
     const tEl = document.getElementById('t-txt');
     if (!isUserEditing) { suppressInputEvent = true; tEl.textContent = (finalTranscript + interim).trim(); suppressInputEvent = false; }
     updateLimitBar(tEl.textContent.length);
@@ -1342,6 +1347,7 @@ function makeRecognition() {
 }
 
 function startRec() {
+  resultOffset = 0; lastResultCount = 0;
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) {
     document.getElementById('t-ph').textContent = 'Voice recognition not supported. Try Chrome or Safari.';
@@ -1762,14 +1768,17 @@ tTxt.addEventListener('input', () => {
   clearTimeout(editTimer);
   const txt = tTxt.textContent;
   if (!txt.trim()) {
-    // User cleared the field — reset fully and restart recognition to drop accumulated e.results
-    finalTranscript = '';
+    // User cleared the field — reset fully, restart recognition to drop accumulated e.results
+    finalTranscript = ''; userBase = ''; resultOffset = 0; lastResultCount = 0;
     isUserEditing = false;
     if (isRec) startRec();
   } else {
+    // Partial edit — save what user left, skip old speech results on next recording
+    userBase = txt.trimEnd();
+    resultOffset = lastResultCount;
+    finalTranscript = userBase + ' ';
     isUserEditing = true;
     editTimer = setTimeout(() => { isUserEditing = false; }, 1200);
-    finalTranscript = txt.trimEnd() + ' ';
   }
   updateLimitBar(txt.length);
 });
