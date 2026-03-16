@@ -724,10 +724,8 @@ function escNl(s) {
 
 function adaptiveFont(n) {
   const len = [n.title||'', n.body||'', ...(n.items||[]).map(i=>i.text)].join(' ').trim().length;
-  if (len < 15)  return {title:'22px', content:'20px'};
-  if (len < 40)  return {title:'18px', content:'17px'};
-  if (len < 90)  return {title:'16px', content:'15px'};
-  if (len < 180) return {title:'15px', content:'14px'};
+  if (len < 40)  return {title:'20px', content:'18px'};
+  if (len < 150) return {title:'16px', content:'15px'};
   return         {title:'14px', content:'13px'};
 }
 
