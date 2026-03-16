@@ -1759,11 +1759,18 @@ const tTxt = document.getElementById('t-txt');
 tTxt.addEventListener('focus', () => { finalTranscript = tTxt.textContent.trimEnd() + ' '; });
 tTxt.addEventListener('input', () => {
   if (suppressInputEvent) return;
-  isUserEditing = true;
   clearTimeout(editTimer);
-  editTimer = setTimeout(() => { isUserEditing = false; }, 1200);
   const txt = tTxt.textContent;
-  finalTranscript = txt.trim() ? txt.trimEnd() + ' ' : '';
+  if (!txt.trim()) {
+    // User cleared the field — reset fully and restart recognition to drop accumulated e.results
+    finalTranscript = '';
+    isUserEditing = false;
+    if (isRec) startRec();
+  } else {
+    isUserEditing = true;
+    editTimer = setTimeout(() => { isUserEditing = false; }, 1200);
+    finalTranscript = txt.trimEnd() + ' ';
+  }
   updateLimitBar(txt.length);
 });
 </script>
