@@ -70,17 +70,17 @@ body{display:flex;flex-direction:column}
 .take-note-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:background .15s}
 .take-note-btn:active{background:rgba(0,0,0,0.08)}
 
-.notes-area{padding:6px 16px 0}
+.notes-area{padding:0 16px 0}
 .masonry{columns:2;column-gap:8px}
 .note-card{break-inside:avoid;border-radius:14px;padding:14px;margin-bottom:5px;cursor:pointer;display:inline-block;width:100%;max-height:300px;overflow:hidden;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
 .note-card:active{transform:scale(0.97)}
 @keyframes cardPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
 .note-card.pop{animation:cardPop .45s cubic-bezier(.34,1.56,.64,1)}
 /* ── NOTE COLOR PALETTES ── */
-.c-orange{background:#FFE4A8}.c-pink{background:#FFD9D9}.c-green{background:#D0ECCC}
+.c-orange{background:hsl(28,90%,83%)}.c-pink{background:#FFD9D9}.c-green{background:#D0ECCC}
 .c-sand{background:#EFE5CE}.c-blue{background:#D8E4FF}
 .c-white{background:var(--surface);border:1px solid var(--border)}
-.c-purple{background:#ECDAFA}.c-yellow{background:#FFF3C4}.c-teal{background:#C4EAE4}
+.c-purple{background:#ECDAFA}.c-yellow{background:hsl(43,88%,82%)}.c-teal{background:#C4EAE4}
 /* uniform black-opacity tokens for all note text */
 .note-card{--nt-title:rgba(0,0,0,0.88);--nt-body:rgba(0,0,0,0.7);--nt-chk:rgba(0,0,0,0.75);--nt-done:rgba(0,0,0,0.38);--nt-cb:rgba(0,0,0,0.3);--nt-cb-check:rgba(0,0,0,0.22);--nt-lbl-bg:rgba(0,0,0,0.1);--nt-lbl:rgba(0,0,0,0.6)}
 
@@ -800,7 +800,7 @@ function addNote() {
 }
 
 // ── NOTE EDIT MODAL ──
-const NM_COLOR_BG = {'c-orange':'#FFE4A8','c-pink':'#FFD9D9','c-green':'#D0ECCC','c-sand':'#EFE5CE','c-blue':'#D8E4FF','c-purple':'#ECDAFA','c-yellow':'#FFF3C4','c-teal':'#C4EAE4','c-white':null};
+const NM_COLOR_BG = {'c-orange':'hsl(28,90%,83%)','c-pink':'#FFD9D9','c-green':'#D0ECCC','c-sand':'#EFE5CE','c-blue':'#D8E4FF','c-purple':'#ECDAFA','c-yellow':'hsl(43,88%,82%)','c-teal':'#C4EAE4','c-white':null};
 
 function openNote(id) {
   const note = notes.find(n => n.id === id);
