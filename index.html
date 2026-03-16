@@ -10,48 +10,44 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  /* M3 — key color #FFCF00 (HCT hue≈88, chroma≈109)
-     Primary uses T80 (bright yellow) so buttons stay visibly yellow.
-     Neutrals use same hue at chroma~4 for surfaces.            */
+  /* Primary — yellow stays */
+  --md-primary:#FFCF00;
+  --md-on-primary:#1A1A00;
+  --md-primary-container:#FFF8D6;
+  --md-on-primary-container:#1A1A00;
 
-  /* Primary palette H=88 */
-  --md-primary:#FFCF00;          /* T80 — bright yellow, used for interactive surfaces */
-  --md-on-primary:#3B2C00;       /* T10 — dark brown for text on yellow */
-  --md-primary-container:#FFECAC;/* T92 — pale gold for containers */
-  --md-on-primary-container:#221A00; /* T10 */
+  /* Secondary — warm sand-tinted dark */
+  --md-secondary:#36322C;
+  --md-on-secondary:#FDFCFA;
+  --md-secondary-container:#EAE8E3;
+  --md-on-secondary-container:#1A1917;
 
-  /* Secondary palette H=88, chroma~16 */
-  --md-secondary:#675D39;        /* T40 */
-  --md-on-secondary:#FFFFFF;
-  --md-secondary-container:#F2E1B3;  /* T90 */
-  --md-on-secondary-container:#211B00;
-
-  /* Tertiary palette H=148 (complement), chroma~24 */
-  --md-tertiary:#486645;         /* T40 */
+  /* Tertiary — green */
+  --md-tertiary:#34A853;
   --md-on-tertiary:#FFFFFF;
-  --md-tertiary-container:#C8E8C3;   /* T90 */
-  --md-on-tertiary-container:#052009;
+  --md-tertiary-container:#D1F0D8;
+  --md-on-tertiary-container:#0A3D1F;
 
-  /* Error palette (fixed) */
-  --md-error:#BA1A1A;
+  /* Error */
+  --md-error:#FF3B30;
   --md-error-container:#FFDAD6;
   --md-on-error:#FFFFFF;
   --md-on-error-container:#410002;
 
-  /* Neutral palette H=88, chroma~4 */
-  --md-surface:#FDFCF4;          /* T99 — near-white, barely warm */
-  --md-surface-variant:#EDE3CA;  /* T90 neutral-variant */
-  --md-on-surface:#1E1B13;       /* T10 */
-  --md-on-surface-variant:#4C4635;   /* T30 */
-  --md-outline:#7D7560;          /* T50 */
-  --md-outline-variant:#D0C9A9;  /* T80 */
+  /* Neutral — warm sand-tinted grey (Claude-style) */
+  --md-surface:#FDFCFA;
+  --md-surface-variant:#EAE8E3;
+  --md-on-surface:#1A1917;
+  --md-on-surface-variant:#6B6761;
+  --md-outline:#C8C4BC;
+  --md-outline-variant:#D6D3CC;
 
-  --bg:var(--md-surface);--surface:var(--md-surface);--s2:var(--md-surface-variant);
-  --border:var(--md-outline-variant);--text:var(--md-on-surface);--t2:var(--md-on-surface-variant);--t3:#9A8E6E;
+  --bg:#F5F3EF;--surface:#FDFCFA;--s2:#EAE8E3;
+  --border:#D6D3CC;--text:#1A1917;--t2:#6B6761;--t3:#A8A39C;
   --bs:56px;--gap:8px;
-  --col-new-bg:var(--md-tertiary-container);--col-new-text:var(--md-on-tertiary-container);
-  --col-edit-bg:var(--md-primary-container);--col-edit-text:var(--md-on-primary-container);
-  --col-del-bg:var(--md-error-container);--col-del-text:var(--md-on-error-container);
+  --col-new-bg:rgba(52,199,89,0.15);--col-new-text:rgba(0,0,0,0.85);
+  --col-edit-bg:rgba(0,0,0,0.05);--col-edit-text:rgba(0,0,0,0.85);
+  --col-del-bg:rgba(255,59,48,0.12);--col-del-text:rgba(0,0,0,0.85);
   --font:'Google Sans',sans-serif;--fontd:'Google Sans Display',sans-serif;
 }
 html,body{width:100%;height:100%;background:var(--bg);font-family:var(--font);color:var(--text);-webkit-font-smoothing:antialiased}
@@ -62,10 +58,10 @@ body{display:flex;flex-direction:column}
 
 .topbar{padding:max(env(safe-area-inset-top),14px) 16px 10px;display:flex;align-items:center;gap:10px}
 .menu-btn{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;background:transparent;cursor:pointer;color:var(--t2);flex-shrink:0}
-.search-bar{flex:1;height:46px;background:var(--surface);border-radius:23px;border:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.search-bar{flex:1;height:46px;background:var(--s2);border-radius:23px;border:none;display:flex;align-items:center;padding:0 14px;gap:10px}
 .search-bar input{flex:1;border:none;outline:none;background:transparent;font-family:var(--font);font-size:15px;color:var(--text)}
 .search-bar input::placeholder{color:var(--t3)}
-.avatar{width:36px;height:36px;border-radius:50%;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--md-primary);flex-shrink:0}
+.avatar{width:36px;height:36px;border-radius:50%;background:#7B2FBE;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#FFFFFF;flex-shrink:0}
 
 .notes-area{padding:6px 8px 0}
 .masonry{columns:2;column-gap:8px}
@@ -73,28 +69,32 @@ body{display:flex;flex-direction:column}
 .note-card:active{transform:scale(0.97)}
 @keyframes cardPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
 .note-card.pop{animation:cardPop .45s cubic-bezier(.34,1.56,.64,1)}
+/* ── NOTE COLOR PALETTES ── */
 .c-orange{background:#FFE4A8}.c-pink{background:#FFD9D9}.c-green{background:#D0ECCC}
 .c-sand{background:#EFE5CE}.c-blue{background:#D8E4FF}
-.c-white{background:var(--md-surface);border:1px solid var(--md-outline-variant)}
+.c-white{background:var(--surface);border:1px solid var(--border)}
 .c-purple{background:#ECDAFA}.c-yellow{background:#FFF3C4}.c-teal{background:#C4EAE4}
+/* uniform black-opacity tokens for all note text */
+.note-card{--nt-title:rgba(0,0,0,0.88);--nt-body:rgba(0,0,0,0.7);--nt-chk:rgba(0,0,0,0.75);--nt-done:rgba(0,0,0,0.38);--nt-cb:rgba(0,0,0,0.3);--nt-cb-check:rgba(0,0,0,0.22);--nt-lbl-bg:rgba(0,0,0,0.1);--nt-lbl:rgba(0,0,0,0.6)}
+
 .c-image{background:#EFE5CE;padding:0;overflow:hidden;max-height:none}
 .note-img-ph{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,#F4DEBC,#EDE0CF,#D0ECC8);display:flex;align-items:center;justify-content:center;font-size:32px}
-.note-title{font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:5px;line-height:1.35}
-.note-body{font-size:14px;color:rgba(0,0,0,0.7);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:10;-webkit-box-orient:vertical}
-.chk{display:flex;align-items:center;gap:7px;font-size:14px;color:rgba(0,0,0,0.75);margin-bottom:4px;line-height:1.35}
-.chk.done{text-decoration:line-through;color:rgba(0,0,0,0.38)}
-.cb{width:16px;height:16px;border:1.5px solid rgba(0,0,0,0.3);border-radius:3px;flex-shrink:0}
-.cb.checked{background:rgba(0,0,0,0.22);border-color:transparent}
-.note-label{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:20px;font-size:11px;background:rgba(0,0,0,0.1);color:rgba(0,0,0,0.6)}
+.note-title{font-size:15px;font-weight:500;color:var(--nt-title);margin-bottom:5px;line-height:1.35}
+.note-body{font-size:14px;color:var(--nt-body);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:10;-webkit-box-orient:vertical}
+.chk{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--nt-chk);margin-bottom:4px;line-height:1.35}
+.chk.done{text-decoration:line-through;color:var(--nt-done)}
+.cb{width:16px;height:16px;border:1.5px solid var(--nt-cb);border-radius:3px;flex-shrink:0}
+.cb.checked{background:var(--nt-cb-check);border-color:transparent}
+.note-label{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:20px;font-size:11px;background:var(--nt-lbl-bg);color:var(--nt-lbl)}
 .fab-spacer{height:96px}
 
 /* FABs */
 .fab-row{position:fixed;bottom:40px;right:24px;display:flex;align-items:center;gap:16px;z-index:100}
-.ai-pill{height:var(--bs);padding:0 20px 0 16px;border-radius:calc(var(--bs)/2);border:none;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,0.14),0 1px 4px rgba(0,0,0,0.07);display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .12s}
+.ai-pill{height:var(--bs);padding:0 20px 0 16px;border-radius:calc(var(--bs)/2);border:none;background:var(--surface);display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .12s;box-shadow:0 2px 12px rgba(0,0,0,0.12),0 1px 3px rgba(0,0,0,0.08)}
 .ai-pill:active{transform:scale(0.93)}
 .ai-pill-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ai-pill-text{font-family:var(--font);font-size:15px;font-weight:500;color:var(--md-on-surface);white-space:nowrap}
-.plus-btn{width:var(--bs);height:var(--bs);border-radius:50%;background:var(--md-primary);border:none;box-shadow:0 2px 16px rgba(59,44,0,0.28),0 1px 4px rgba(124,88,0,0.14);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-primary);flex-shrink:0;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+.ai-pill-text{font-family:var(--font);font-size:15px;font-weight:500;color:var(--text);white-space:nowrap}
+.plus-btn{width:var(--bs);height:var(--bs);border-radius:50%;background:var(--md-primary);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-primary);flex-shrink:0;transition:transform .18s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 12px rgba(0,0,0,0.12),0 1px 3px rgba(0,0,0,0.08)}
 .plus-btn:active{transform:scale(0.93)}
 
 /* backdrop */
@@ -104,46 +104,39 @@ body{display:flex;flex-direction:column}
 /* sheet base */
 .sheet{position:fixed;bottom:0;left:0;right:0;border-radius:24px 24px 0 0;z-index:201;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,0,.16,1)}
 .sheet.show{transform:translateY(0)}
-#scope-sheet{transition:transform .38s cubic-bezier(.32,0,.16,1)}
 .sheet-close{position:absolute;top:8px;right:8px;width:44px;height:44px;border-radius:50%;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-surface-variant);z-index:2;transition:opacity .2s}
 .sheet-close:active{opacity:.6}
-#scope-sheet.applying .sheet-close{opacity:0;pointer-events:none}
+#morph-sheet.applying .sheet-close{opacity:0;pointer-events:none}
 
 /* ══ MORPH / VOICE SHEET ══ */
 #morph-sheet{position:fixed;border-radius:calc(var(--bs)/2);overflow:hidden;z-index:202;display:none;flex-direction:column;pointer-events:none}
 #morph-sheet.visible{display:flex}
 #morph-sheet.expanding{transition:left .42s cubic-bezier(.32,0,.16,1),bottom .42s cubic-bezier(.32,0,.16,1),width .42s cubic-bezier(.32,0,.16,1),height .42s cubic-bezier(.32,0,.16,1),border-radius .42s cubic-bezier(.32,0,.16,1),background .35s;pointer-events:all}
 #morph-sheet.collapsing{transition:left .36s cubic-bezier(.4,0,.2,1),bottom .36s cubic-bezier(.4,0,.2,1),width .36s cubic-bezier(.4,0,.2,1),height .36s cubic-bezier(.4,0,.2,1),border-radius .36s cubic-bezier(.4,0,.2,1),background .3s;pointer-events:none}
-.vc{position:relative;display:flex;flex-direction:column;flex:1;opacity:0;pointer-events:none;transition:opacity .22s .3s;min-height:0}
+.vc,.sc{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none}
+.vc{transition:opacity .22s .3s}
+.sc{transition:opacity .22s;overflow:hidden}
 #morph-sheet.open .vc{opacity:1;pointer-events:all}
 #morph-sheet.collapsing .vc{opacity:0;pointer-events:none;transition:none}
+#morph-sheet.scope .sc{opacity:1;pointer-events:all}
+#morph-sheet.scope .vc{opacity:0;pointer-events:none;transition:opacity .15s}
+#morph-sheet.collapsing .sc{opacity:0;pointer-events:none;transition:none}
 .vc-close{position:absolute;top:8px;right:8px;width:44px;height:44px;border-radius:50%;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-surface-variant);z-index:2;transition:opacity .2s}
 .vc-close:active{opacity:.6}
 .transcript-area{padding:16px 64px 6px 20px;font-family:var(--fontd);font-size:18px;line-height:1.5;color:var(--text);flex:1;min-height:0;overflow:hidden}
 .t-placeholder{color:var(--t3);font-size:15px}
-.tcursor{display:inline-block;width:2px;height:18px;background:var(--md-primary);animation:blink 1s infinite;vertical-align:middle;margin-left:2px}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.transcript-limit{height:3px;margin:4px 20px 0;border-radius:2px;background:var(--s2);flex-shrink:0;overflow:hidden}
+.transcript-limit-bar{height:100%;width:0%;border-radius:2px;transition:width .2s,background-color .4s}
 .wave-wrap{padding:0;height:32px;display:flex;align-items:center;flex-shrink:0}
 #wc{width:100%;height:24px;pointer-events:none}
-.voice-ctrls{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:8px 16px 16px}
-.pause-btn{width:var(--bs);height:var(--bs);border-radius:50%;background:var(--md-secondary-container);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-secondary-container);flex-shrink:0;transition:transform .18s}
-.pause-btn:active{transform:scale(0.93)}
-.finish-btn{flex:none;height:var(--bs);border-radius:calc(var(--bs)/2);background:var(--md-primary);color:var(--md-on-primary);border:none;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:transform .18s}
+.voice-ctrls{flex-shrink:0;display:flex;align-items:center;gap:16px;padding:8px 16px 16px}
+.pause-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);background:var(--md-secondary-container);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--md-on-secondary-container);transition:transform .18s}
+.pause-btn:active{transform:scale(0.97)}
+.finish-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);background:var(--md-primary);color:var(--md-on-primary);border:none;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:transform .18s}
 .finish-btn:active{transform:scale(0.97);opacity:.9}
 .finish-btn:disabled{opacity:.5;cursor:default}
 
-/* ══ SCOPE SHEET ══ */
-#scope-sheet{
-  background:var(--surface);
-  max-height:92dvh;display:flex;flex-direction:column;
-  position:fixed;overflow:hidden;
-  left:50%;right:auto;
-  width:min(calc(100% - 48px),600px);
-  bottom:24px;
-  border-radius:24px;
-  transform:translateX(-50%) translateY(calc(100% + 24px));
-}
-#scope-sheet.show{transform:translateX(-50%) translateY(0)}
+/* ══ SCOPE CONTENT ══ */
 .scope-hdr{padding:16px 20px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .scope-ttl{font-family:var(--fontd);font-size:18px;font-weight:500;color:var(--text)}
 .scope-cnt{font-size:13px;color:var(--t3)}
@@ -152,44 +145,35 @@ body{display:flex;flex-direction:column}
 .scope-scroll::-webkit-scrollbar{display:none}
 
 .sec-group{overflow:hidden}
-.sec-lbl{font-size:11px;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 6px;padding:0 2px}
+.sec-lbl{font-size:15px;font-weight:700;color:rgba(0,0,0,0.85);margin:12px 0 6px;padding:0 2px}
 
 .si{border-radius:14px;padding:12px 10px 12px 14px;margin-bottom:4px;display:flex;align-items:center;gap:10px;border:none;transition:all .22s cubic-bezier(.4,0,.2,1)}
-.si.removing{animation:sOut .22s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes sOut{to{opacity:0;transform:translateX(36px);max-height:0;padding:0;margin:0}}
 .si.new {background:var(--col-new-bg)}
 .si.edit{background:var(--col-edit-bg)}
 .si.del {background:var(--col-del-bg)}
+.si.removing{animation:sOut .22s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes sOut{to{opacity:0;transform:translateX(36px);max-height:0;padding:0;margin:0}}
 .si-body{flex:1;min-width:0}
-.si-act{font-size:13px;font-weight:500;margin-bottom:2px;line-height:1.3}
+.si-act{font-size:13px;font-weight:500;line-height:1.3}
 .si.new  .si-act{color:var(--col-new-text)}
 .si.edit .si-act{color:var(--col-edit-text)}
 .si.del  .si-act{color:var(--col-del-text)}
-.si-desc{font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.si.new  .si-desc{color:rgba(11,31,7,0.55)}
-.si.edit .si-desc{color:rgba(39,25,0,0.55)}
-.si.del  .si-desc{color:rgba(65,0,2,0.55)}
-.si-note{display:inline-flex;align-items:center;gap:3px;margin-top:5px;padding:2px 8px 2px 5px;border-radius:20px;font-size:11px;font-weight:500;line-height:1.4;white-space:nowrap;overflow:hidden;max-width:100%;text-overflow:ellipsis}
-.si.new  .si-note{background:rgba(11,31,7,0.1);color:rgba(11,31,7,0.72)}
-.si.edit .si-note{background:rgba(39,25,0,0.1);color:rgba(39,25,0,0.72)}
-.si.del  .si-note{background:rgba(65,0,2,0.1);color:rgba(65,0,2,0.72)}
-.si-del{width:44px;height:44px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .15s;background:transparent}
+.si-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.si-note{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;line-height:1.4;white-space:nowrap;overflow:hidden;max-width:100%;text-overflow:ellipsis;background:rgba(255,255,255,0.7);color:var(--text)}
+.si-del{width:36px;height:36px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .15s;background:rgba(0,0,0,0.08);color:rgba(0,0,0,0.55)}
 .si-del:active{opacity:.7}
-.si.new  .si-del{background:rgba(78,102,69,0.13);color:var(--md-tertiary)}
-.si.edit .si-del{background:rgba(124,88,0,0.13);color:var(--md-primary)}
-.si.del  .si-del{background:rgba(186,26,26,0.12);color:var(--md-error)}
 
 .scope-foot{padding:8px 16px 16px;flex-shrink:0;display:flex;flex-direction:row;gap:16px}
 .apply-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:var(--md-primary);color:var(--md-on-primary);font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s}
 .apply-btn:active{opacity:.85}
 .apply-btn:disabled{opacity:.38;cursor:default;box-shadow:none}
-.cancel-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:rgba(30,27,22,0.08);font-family:var(--font);font-size:15px;font-weight:500;color:var(--md-on-surface-variant);cursor:pointer;transition:opacity .15s}
-.cancel-btn:active{opacity:.7}
+.cancel-btn{flex:1;height:var(--bs);border-radius:calc(var(--bs)/2);border:none;background:var(--md-secondary-container);color:var(--md-on-secondary-container);font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;transition:transform .18s}
+.cancel-btn:active{transform:scale(0.97)}
 
 /* ══ PROCESSING OVERLAY ══ */
 #proc-overlay{
   position:absolute;inset:0;border-radius:24px;
-  background:rgba(253,252,244,0.90);
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
@@ -198,13 +182,17 @@ body{display:flex;flex-direction:column}
   z-index:10;
 }
 #proc-overlay.show{opacity:1;pointer-events:all}
-.spinner{width:48px;height:48px;border-radius:50%;border:3px solid rgba(59,44,0,0.15);border-top-color:var(--md-primary);animation:rotate .75s linear infinite}
+.spinner{width:48px;height:48px;border-radius:50%;border:3px solid rgba(0,0,0,0.10);border-top-color:var(--md-primary);animation:rotate .75s linear infinite}
 @keyframes rotate{to{transform:rotate(360deg)}}
 .proc-label{font-size:15px;font-weight:500;color:var(--text);letter-spacing:-.01em}
 .proc-success{display:flex;flex-direction:row;align-items:center;gap:10px;opacity:0;transform:scale(0.92);transition:opacity .35s,transform .35s cubic-bezier(.34,1.56,.64,1);position:absolute}
 .proc-success.show{opacity:1;transform:scale(1)}
 .proc-success svg{color:var(--md-primary);flex-shrink:0}
 .proc-success-label{font-family:var(--fontd);font-size:18px;font-weight:500;color:var(--text)}
+
+/* scope item entrance */
+@keyframes siIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.si.appearing{animation:siIn .28s cubic-bezier(.4,0,.2,1) both}
 
 /* empty state */
 .empty-state{padding:40px 20px;text-align:center;color:var(--t3);font-size:14px}
@@ -230,23 +218,23 @@ body{display:flex;flex-direction:column}
 .drawer-logo-text span{color:#4285f4}oogle <span style="color:#ea4335">K</span>eep
 .drawer-item{display:flex;align-items:center;gap:16px;padding:0 16px;height:48px;border-radius:0 24px 24px 0;margin-right:8px;cursor:pointer;font-size:15px;color:var(--text);border:none;background:transparent;width:calc(100% - 8px);text-align:left;transition:background .15s}
 .drawer-item:hover{background:var(--s2)}
-.drawer-item.active{background:var(--md-primary-container);color:var(--md-primary);font-weight:500}
-.drawer-item.active svg{color:var(--md-primary)}
+.drawer-item.active{background:var(--md-primary-container);color:var(--md-on-primary-container);font-weight:500}
+.drawer-item.active svg{color:var(--md-on-primary-container)}
 .drawer-item svg{flex-shrink:0;color:var(--t2)}
 .drawer-sep{height:1px;background:var(--border);margin:8px 0}
 .drawer-section-lbl{padding:8px 20px 4px;font-size:11px;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
 
 /* ══ M3 HOVER (desktop only) ══ */
 @media(hover:hover){
-  .finish-btn:hover,.apply-btn:hover{box-shadow:inset 0 0 0 9999px rgba(59,44,0,0.08)}
-  .plus-btn:hover{box-shadow:inset 0 0 0 9999px rgba(59,44,0,0.08)}
-  .pause-btn:hover{box-shadow:inset 0 0 0 9999px rgba(33,27,0,0.10)}
-  .cancel-btn:hover{background:rgba(30,27,19,0.13)}
-  .ai-pill:hover{box-shadow:0 4px 20px rgba(0,0,0,0.16),0 1px 6px rgba(0,0,0,0.09)}
-  .vc-close:hover,.sheet-close:hover{background:rgba(30,27,19,0.08)}
-  .menu-btn:hover{background:rgba(30,27,19,0.08)}
+  .finish-btn:hover,.apply-btn:hover{box-shadow:inset 0 0 0 9999px rgba(0,0,0,0.08)}
+  .plus-btn:hover{box-shadow:inset 0 0 0 9999px rgba(0,0,0,0.08)}
+  .pause-btn:hover{box-shadow:inset 0 0 0 9999px rgba(0,0,0,0.07)}
+  .cancel-btn:hover{box-shadow:inset 0 0 0 9999px rgba(0,0,0,0.07)}
+  .ai-pill:hover{background:var(--s2)}
+  .vc-close:hover,.sheet-close:hover{background:rgba(0,0,0,0.07)}
+  .menu-btn:hover{background:rgba(0,0,0,0.07)}
   .si-del:hover{opacity:.75}
-  .drawer-item:hover:not(.active){background:var(--md-secondary-container)}
+  .drawer-item:hover:not(.active){background:var(--s2)}
 }
 </style>
 </head>
@@ -261,7 +249,7 @@ body{display:flex;flex-direction:column}
       <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--t3)"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <input type="text" placeholder="Search your notes" readonly>
     </div>
-    <div class="avatar">A</div>
+    <div class="avatar" ondblclick="resetToDefaults()">Y</div>
   </div>
 
   <div class="notes-area">
@@ -284,7 +272,7 @@ body{display:flex;flex-direction:column}
     </div>
     <span class="ai-pill-text">Organise</span>
   </button>
-  <button class="plus-btn" id="plus-btn" onclick="addNote()">
+  <button class="plus-btn" id="plus-btn">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
   </button>
 </div>
@@ -294,8 +282,8 @@ body{display:flex;flex-direction:column}
 <!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-logo">
-    <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#fbbc04" d="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5 21.5 20.75 21.17 20.75H7.92Q7.58 20.75 7.33 20.5L2.25 15.42Q2 15.17 2 14.83V4.08Q2 3.74 2.25 3.5 2.5 3.25 2.83 3.25Z"/><path fill="#fff" d="M13 12.5H7V11H13M16 9.5H7V8H16M13 15.5H7V14H13Z"/></svg>
-    <span class="drawer-logo-text"><span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span> Keep</span>
+    <svg width="24" height="24" viewBox="0 0 24 24"><path fill="var(--md-primary)" d="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5 21.5 20.75 21.17 20.75H7.92Q7.58 20.75 7.33 20.5L2.25 15.42Q2 15.17 2 14.83V4.08Q2 3.74 2.25 3.5 2.5 3.25 2.83 3.25Z"/><path fill="var(--text)" d="M13 12.5H7V11H13M16 9.5H7V8H16M13 15.5H7V14H13Z"/></svg>
+    <span class="drawer-logo-text">Keep</span>
   </div>
 
   <button class="drawer-item active">
@@ -354,17 +342,18 @@ body{display:flex;flex-direction:column}
   </button>
 </div>
 
-<!-- MORPH / VOICE SHEET -->
+<!-- MORPH SHEET — contains both voice (vc) and planned-changes (sc) panels -->
 <div id="morph-sheet">
+  <!-- Voice panel -->
   <div class="vc" id="vc">
     <button class="vc-close" onclick="closeMorph()" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
     <div class="transcript-area">
       <span class="t-placeholder" id="t-ph">Speak — tell me what to do with your notes…</span>
-      <span id="t-txt" style="display:none"></span>
-      <span class="tcursor" id="t-cur" style="display:none"></span>
+      <span id="t-txt" contenteditable="true" spellcheck="false" style="display:none;outline:none"></span>
     </div>
+    <div class="transcript-limit"><div class="transcript-limit-bar" id="limit-bar"></div></div>
     <div class="wave-wrap"><canvas id="wc"></canvas></div>
     <div class="voice-ctrls">
       <button class="pause-btn" id="pause-btn" onclick="toggleRec()">
@@ -376,31 +365,30 @@ body{display:flex;flex-direction:column}
       </button>
     </div>
   </div>
-</div>
-
-<!-- SCOPE SHEET -->
-<div class="sheet" id="scope-sheet">
-  <button class="sheet-close" onclick="closeAll()" aria-label="Close">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-  </button>
-  <div class="scope-hdr">
-    <span class="scope-ttl">Planned changes</span>
-  </div>
-  <div class="scope-scroll" id="slist"></div>
-  <div class="scope-foot">
-    <button class="cancel-btn" onclick="closeAll()">Cancel</button>
-    <button class="apply-btn" id="applybtn" onclick="doApply()">Apply</button>
-  </div>
-  <div id="proc-overlay">
-    <div id="proc-spinner" style="display:flex;flex-direction:column;align-items:center;gap:16px">
-      <div class="spinner"></div>
-      <div class="proc-label" id="proc-label">Thinking…</div>
+  <!-- Planned changes panel -->
+  <div class="sc" id="sc">
+    <button class="sheet-close" onclick="closeAll()" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <div class="scope-hdr">
+      <span class="scope-ttl">Planned changes</span>
     </div>
-    <div class="proc-success" id="proc-success">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="proc-success-label">Notes organised</div>
+    <div class="scope-scroll" id="slist"></div>
+    <div class="scope-foot">
+      <button class="cancel-btn" onclick="returnToVoice()">Cancel</button>
+      <button class="apply-btn" id="applybtn" onclick="doApply()">Apply</button>
+    </div>
+    <div id="proc-overlay">
+      <div id="proc-spinner" style="display:flex;flex-direction:column;align-items:center;gap:16px">
+        <div class="spinner"></div>
+        <div class="proc-label" id="proc-label">Thinking…</div>
+      </div>
+      <div class="proc-success" id="proc-success">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="proc-success-label">Notes organised</div>
+      </div>
     </div>
   </div>
 </div>
@@ -408,6 +396,15 @@ body{display:flex;flex-direction:column}
 <script>
 // ── CONFIG ──
 const PROXY_URL = 'https://keep.yuragpt228.workers.dev/';
+const TRANSCRIPT_LIMIT = 400;
+
+function updateLimitBar(len) {
+  const bar = document.getElementById('limit-bar');
+  if (!bar) return;
+  const pct = Math.min(len / TRANSCRIPT_LIMIT * 100, 100);
+  bar.style.width = pct + '%';
+  bar.style.backgroundColor = pct < 70 ? 'var(--md-primary)' : pct < 90 ? '#FF9500' : '#FF3B30';
+}
 const STORAGE_KEY = 'keep_notes_v1';
 
 // ── SEED DATA ──
@@ -439,11 +436,21 @@ let pendingActions = [];
 let recognition = null;
 let isRec = false;
 let finalTranscript = '';
+let isUserEditing = false;
+let editTimer = null;
+let suppressInputEvent = false;
 let af, wt = 0, wa = 0, waveAmps = [], waveFrame = 0, wtDecayTimer = null;
+let voiceSheetH = 310; // saved so returnToVoice can animate back
 
 // ── STORAGE ──
 function saveNotes() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+}
+function resetToDefaults() {
+  if (!confirm('Reset all notes to defaults?')) return;
+  notes = [...SEED].map(n => ({...n}));
+  saveNotes();
+  renderNotes();
 }
 
 // ── RENDER ──
@@ -509,19 +516,20 @@ function openVoice() {
   const ms = document.getElementById('morph-sheet');
 
   finalTranscript = '';
-  // Reset any inline styles left from finishVoice transition
+  ms.classList.remove('scope'); // ensure clean state on re-open
   const vc = document.getElementById('vc');
   vc.style.opacity = ''; vc.style.pointerEvents = ''; vc.style.transition = '';
   document.getElementById('t-ph').style.display = 'inline';
   document.getElementById('t-txt').style.display = 'none';
   document.getElementById('t-txt').textContent = '';
-  document.getElementById('t-cur').style.display = 'none';
   document.getElementById('finish-btn').disabled = false;
+  updateLimitBar(0);
   setPauseIcon(false); isRec = false;
 
   const r = pill.getBoundingClientRect();
   const b = window.innerHeight - r.bottom;
   const targetH = Math.min(window.innerHeight * 0.44, 310);
+  voiceSheetH = targetH;
 
   ms.style.left = r.left + 'px';
   ms.style.bottom = b + 'px';
@@ -539,10 +547,6 @@ function openVoice() {
   const maxW = Math.min(window.innerWidth - 48, 600);
   const targetLeft = Math.round((window.innerWidth - maxW) / 2);
 
-  // set finish-btn width to match pill + gap + plus
-  const finishW = r.width + 16 + document.getElementById('plus-btn').offsetWidth;
-  document.getElementById('finish-btn').style.width = finishW + 'px';
-
   requestAnimationFrame(() => requestAnimationFrame(() => {
     ms.classList.add('expanding');
     ms.style.left = targetLeft + 'px'; ms.style.bottom = '24px';
@@ -553,7 +557,16 @@ function openVoice() {
   }));
 
   setTimeout(() => { rcv(); wt = 0; dw(); }, 450);
-  setTimeout(startRec, 600);
+
+  // Auto-start if mic permission already granted; otherwise start normally (browser will prompt)
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: 'microphone' }).then(status => {
+      const delay = status.state === 'granted' ? 300 : 600;
+      setTimeout(startRec, delay);
+    }).catch(() => setTimeout(startRec, 600));
+  } else {
+    setTimeout(startRec, 600);
+  }
 }
 
 function closeMorph() {
@@ -562,7 +575,7 @@ function closeMorph() {
   const ms = document.getElementById('morph-sheet');
   if (!ms.classList.contains('visible')) return;
   ms.classList.add('collapsing');
-  ms.classList.remove('open', 'expanding');
+  ms.classList.remove('open', 'expanding', 'scope');
   const r = pill.getBoundingClientRect();
   requestAnimationFrame(() => requestAnimationFrame(() => {
     ms.style.left = r.left + 'px';
@@ -572,8 +585,9 @@ function closeMorph() {
     ms.style.borderRadius = (r.height / 2) + 'px';
     ms.style.background = getComputedStyle(document.documentElement).getPropertyValue('--md-surface').trim();
   }));
+  document.getElementById('backdrop').classList.remove('show');
   setTimeout(() => {
-    ms.classList.remove('visible', 'collapsing');
+    ms.classList.remove('visible', 'collapsing', 'scope');
     pill.style.opacity = '1'; pill.style.pointerEvents = '';
     plus.style.opacity = '1'; plus.style.pointerEvents = '';
   }, 400);
@@ -590,16 +604,15 @@ function startRec() {
   if (recognition) { try { recognition.abort(); } catch(e) {} }
 
   recognition = new SR();
+  recognition.lang = localStorage.getItem('voiceLang') || 'en-US';
   recognition.continuous = true;
   recognition.interimResults = true;
-  recognition.lang = navigator.language || 'en-US';
 
   recognition.onstart = () => {
     isRec = true; wt = 13;
     setPauseIcon(false);
     document.getElementById('t-ph').style.display = 'none';
     document.getElementById('t-txt').style.display = 'inline';
-    document.getElementById('t-cur').style.display = 'inline-block';
   };
 
   recognition.onresult = (e) => {
@@ -609,7 +622,10 @@ function startRec() {
       if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
       else interim += e.results[i][0].transcript;
     }
-    document.getElementById('t-txt').textContent = (finalTranscript + interim).trim();
+    const tEl = document.getElementById('t-txt');
+    if (!isUserEditing) { suppressInputEvent = true; tEl.textContent = (finalTranscript + interim).trim(); suppressInputEvent = false; }
+    updateLimitBar(tEl.textContent.length);
+    if (tEl.textContent.length >= TRANSCRIPT_LIMIT) { stopRec(); return; }
     // Burst wave yellow on each speech event
     wt = 13; clearTimeout(wtDecayTimer);
     wtDecayTimer = setTimeout(() => { wt = 0; }, 700);
@@ -628,7 +644,7 @@ function startRec() {
 
   recognition.onend = () => {
     if (isRec) {
-      try { recognition.start(); } catch(e) {}
+      setTimeout(() => { try { recognition.start(); } catch(e) {} }, 120);
     }
   };
 
@@ -641,7 +657,6 @@ function stopRec() {
   if (!isRec) return;
   isRec = false; wt = 0; clearTimeout(wtDecayTimer);
   setPauseIcon(true);
-  document.getElementById('t-cur').style.display = 'none';
   if (recognition) { try { recognition.stop(); } catch(e) {} }
 }
 
@@ -651,42 +666,40 @@ function toggleRec() {
 }
 
 async function finishVoice() {
-  const transcript = (finalTranscript || document.getElementById('t-txt').textContent || '').trim();
+  const transcript = (document.getElementById('t-txt').textContent || finalTranscript || '').trim();
   if (!transcript) { closeAll(); return; }
   stopRec();
   cancelAnimationFrame(af);
   document.getElementById('finish-btn').disabled = true;
 
-  // Fade vc out without collapsing morph sheet back to pill
-  const vc = document.getElementById('vc');
   const ms = document.getElementById('morph-sheet');
-  vc.style.transition = 'opacity .15s';
-  vc.style.opacity = '0';
-  vc.style.pointerEvents = 'none';
 
-  setTimeout(() => {
-    // Hide morph sheet silently (no collapse animation)
-    ms.classList.remove('visible','expanding','open','collapsing');
-    vc.style.transition = ''; vc.style.opacity = ''; vc.style.pointerEvents = '';
+  // Prep scope panel content before switching
+  document.getElementById('slist').innerHTML = '';
+  document.getElementById('proc-label').textContent = 'Thinking…';
+  document.getElementById('proc-spinner').style.display = 'flex';
+  document.getElementById('proc-success').classList.remove('show');
+  document.getElementById('applybtn').disabled = true;
 
-    // Show scope sheet instantly at its position (no slide-up)
-    const ss = document.getElementById('scope-sheet');
-    ss.style.transition = 'none';
-    ss.classList.add('show');
-    requestAnimationFrame(() => { ss.style.transition = ''; });
+  // Show overlay immediately so scope panel is covered from the start
+  document.getElementById('proc-overlay').classList.add('show');
 
-    document.getElementById('slist').innerHTML = '';
-    document.getElementById('proc-label').textContent = 'Thinking…';
-    document.getElementById('proc-overlay').classList.add('show');
-    document.getElementById('proc-spinner').style.display = 'flex';
-    document.getElementById('proc-success').classList.remove('show');
-    document.getElementById('applybtn').disabled = true;
-  }, 180);
+  // Switch panel: vc fades out, sc fades in at same height (no resize yet)
+  ms.classList.add('scope');
 
   try {
     const result = await askClaude(transcript);
     pendingActions = result.actions || [];
     renderScopeItems(pendingActions);
+
+    // Expand to fit content — measure actual rendered list height
+    const slist = document.getElementById('slist');
+    const maxH = window.innerHeight - 48;
+    const naturalH = 54 + (slist ? slist.scrollHeight : 0) + 88;
+    const scopeH = Math.min(Math.max(naturalH, 200), maxH);
+    ms.style.height = scopeH + 'px';
+    setTimeout(() => ms.classList.remove('expanding'), 440);
+
     document.getElementById('proc-overlay').classList.remove('show');
     document.getElementById('applybtn').disabled = pendingActions.length === 0;
   } catch(e) {
@@ -701,6 +714,7 @@ async function finishVoice() {
 async function askClaude(transcript) {
   const notesCtx = notes.map(n => ({
     id: n.id,
+    hasTitle: !!(n.title && n.title.trim()),
     title: n.title || '',
     type: n.type,
     body: n.body || '',
@@ -710,7 +724,12 @@ async function askClaude(transcript) {
 
   const system = `You are an AI assistant managing notes in a Google Keep-like app.
 The user gives a voice command (may be in any language) and the current notes list.
-Return a JSON object with an "actions" array. Each action must have a "description" field in the SAME language as the user's command.
+
+CRITICAL LANGUAGE RULE: Detect the language of the voice command. Write EVERY string you output — including "description", title, body, and items — in that exact same language. If the voice command is in English, ALL output must be in English. If in Russian, ALL output in Russian. This applies especially to the "description" field. Never switch languages regardless of the note content language.
+
+CRITICAL NOTE CONTENT RULE: When creating or updating notes, write the full natural content — do not truncate or omit words the user dictated as note content.
+
+Return a JSON object with an "actions" array.
 
 Available actions:
 - {"action":"create","description":"...","note":{"id":"new_<N>","title":"...","body":"...","type":"text|checklist","color":"c-orange|c-pink|c-green|c-sand|c-blue|c-purple|c-yellow|c-teal|c-white","label":"","items":[{"text":"...","done":false}]}}
@@ -718,8 +737,20 @@ Available actions:
 - {"action":"update","description":"...","id":"<existing_note_id>","changes":{"title":"...","body":"...","color":"...","label":"...","items":[...]}}
 - {"action":"append_items","description":"...","id":"<existing_note_id>","items":[{"text":"...","done":false}]}
 
+Description field rules (the note name is shown separately in UI — never include it in the description):
+- delete → "Delete the note"
+- create → brief explanation of the new note content, e.g. "A checklist of mountain trip essentials"
+- update / append_items → brief explanation of what changes, e.g. "Add header to the note"
+- IMPORTANT: when applying the same operation to multiple notes, use the EXACT same description string for every action so they are grouped in the UI
+
+Notes structure rules:
+- Each note in context has a "hasTitle" field. If hasTitle=true, the note already has a title — do NOT add or change the title unless the user explicitly asks to rename it
+- "type" field: "text" = plain text note, "checklist" = list of items with checkboxes, "image" = image placeholder
+- Only include fields in "changes" that actually need to change
+
 Rules:
 - For checklist notes: type="checklist", put items in items array, leave body empty
+- CRITICAL: Only populate checklist items when the user explicitly dictates specific items OR explicitly asks you to generate/suggest/fill them (e.g. "generate items", "add some items", "fill it with suggestions"). If the user simply asks to create a note or list by name (e.g. "create Trip to Belarus checklist"), create it with items: []. Never invent items on your own. When items are provided or requested, write them as real meaningful content — never use placeholders like "Item 1", "Item 2".
 - For text notes: type="text", put content in body
 - When merging/collecting notes: create a new combined note, delete the originals
 - To remove completed items: update the note's items array without done=true items
@@ -735,7 +766,7 @@ Response format: {"actions":[...]}`;
     },
     body: JSON.stringify({
       model: 'claude-haiku-4-5',
-      max_tokens: 4096,
+      max_tokens: 8192,
       system,
       messages: [{
         role: 'user',
@@ -758,65 +789,117 @@ Response format: {"actions":[...]}`;
 
 // ── SCOPE SHEET ──
 function renderScopeItems(actions) {
-  const groups = { new: [], edit: [], del: [] };
-  actions.forEach((a, i) => {
-    if (!a) return;
-    if (a.action === 'create') groups.new.push({...a, _idx: i});
-    else if (a.action === 'delete') groups.del.push({...a, _idx: i});
-    else groups.edit.push({...a, _idx: i});
-  });
-
   function noteName(a) {
     if (a.action === 'create') return a.note?.title || 'New note';
     const n = notes.find(n => n.id === a.id);
     return n ? (n.title || n.body?.slice(0, 30) || 'Note') : 'Note';
   }
 
+  const trashSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
+
+  // Bucket into sections, preserve original order within each
+  const sections = [
+    { type: 'new',  label: 'New',    items: [] },
+    { type: 'edit', label: 'Update', items: [] },
+    { type: 'del',  label: 'Delete', items: [] },
+  ];
+  actions.forEach((a, i) => {
+    if (!a) return;
+    let type;
+    if (a.action === 'create' || a.action === 'append_items') type = 'new';
+    else if (a.action === 'delete') type = 'del';
+    else {
+      // update that removes content → show in Delete section
+      const desc = (a.description || '').toLowerCase();
+      type = /\b(remov|delet|clear|clean|strip)\b/.test(desc) ? 'del' : 'edit';
+    }
+    sections.find(s => s.type === type).items.push({ ...a, _idx: i });
+  });
+
+  // Within each section group by same description
+  function groupSection(items) {
+    const groups = [];
+    items.forEach(a => {
+      const desc = a.description || a.action;
+      const last = groups[groups.length - 1];
+      if (last && last.desc === desc) {
+        last.indices.push(a._idx);
+        last.names.push(noteName(a));
+      } else {
+        groups.push({ desc, indices: [a._idx], names: [noteName(a)] });
+      }
+    });
+    return groups;
+  }
+
   let html = '';
-  if (groups.new.length) {
-    html += `<div class="sec-group"><div class="sec-lbl">New</div>`;
-    groups.new.forEach(a => { html += siHtml('new', a._idx, a.description || a.action, noteName(a)); });
+  sections.forEach(sec => {
+    if (!sec.items.length) return;
+    const groups = groupSection(sec.items);
+    html += `<div class="sec-group" data-type="${sec.type}"><div class="sec-lbl">${sec.label}</div>`;
+    groups.forEach(g => {
+      const groupId = 'sg_' + g.indices[0];
+      const chips = g.names.map(n => `<div class="si-note">${esc(n)}</div>`).join('');
+      const idxJson = JSON.stringify(g.indices);
+      const count = g.indices.length;
+      const desc = count > 1
+        ? g.desc.replace(/\bthe note\b/gi, 'the notes').replace(/\bthe item\b/gi, 'the items')
+        : g.desc;
+      html += `<div class="si ${sec.type}" id="${groupId}">
+        <div class="si-body"><div class="si-act">${esc(desc)}</div><div class="si-chips">${chips}</div></div>
+        <button class="si-del" onclick="rmGroup(${esc(idxJson)})">${trashSvg}</button>
+      </div>`;
+    });
     html += '</div>';
-  }
-  if (groups.edit.length) {
-    html += `<div class="sec-group"><div class="sec-lbl">Updates</div>`;
-    groups.edit.forEach(a => { html += siHtml('edit', a._idx, a.description || a.action, noteName(a)); });
-    html += '</div>';
-  }
-  if (groups.del.length) {
-    html += `<div class="sec-group"><div class="sec-lbl">Delete</div>`;
-    groups.del.forEach(a => { html += siHtml('del', a._idx, a.description || a.action, noteName(a)); });
-    html += '</div>';
-  }
+  });
 
   document.getElementById('slist').innerHTML = html ||
     '<div style="padding:20px;color:var(--t3);font-size:14px;text-align:center">No changes to make</div>';
+  document.querySelectorAll('#slist .si').forEach((el, i) => {
+    el.classList.add('appearing');
+    el.style.animationDelay = (i * 55) + 'ms';
+  });
 }
 
-const noteIconSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>`;
-
-function siHtml(type, idx, desc, noteName) {
-  const trashSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
-  const noteChip = noteName ? `<div class="si-note">${noteIconSvg}${esc(noteName)}</div>` : '';
-  return `<div class="si ${type}" id="si_${idx}">
-    <div class="si-body"><div class="si-act">${esc(desc)}</div>${noteChip}</div>
-    <button class="si-del" onclick="rmAction(${idx})">${trashSvg}</button>
-  </div>`;
-}
-
-function rmAction(idx) {
-  const el = document.getElementById('si_' + idx);
-  if (!el) return;
-  el.classList.add('removing');
-  pendingActions[idx] = null;
+function rmGroup(indices) {
+  const firstEl = document.getElementById('sg_' + indices[0]);
+  if (!firstEl) return;
+  firstEl.classList.add('removing');
+  indices.forEach(i => { pendingActions[i] = null; });
   const remaining = pendingActions.filter(Boolean).length;
   document.getElementById('applybtn').disabled = remaining === 0;
-  setTimeout(() => el.remove(), 240);
+  setTimeout(() => {
+    const group = firstEl.closest('.sec-group');
+    firstEl.remove();
+    if (group && group.querySelectorAll('.si').length === 0) group.remove();
+    if (remaining === 0) returnToVoice();
+  }, 260);
+}
+
+function returnToVoice() {
+  const ms = document.getElementById('morph-sheet');
+  // Animate height back to voice sheet size
+  ms.classList.add('expanding');
+  ms.style.height = voiceSheetH + 'px';
+  setTimeout(() => ms.classList.remove('expanding'), 440);
+  // Switch panels: sc fades out, vc fades in (via CSS — removing .scope re-triggers open .vc rule)
+  ms.classList.remove('scope');
+  // Reset voice UI state
+  finalTranscript = '';
+  const vc = document.getElementById('vc');
+  vc.style.opacity = ''; vc.style.pointerEvents = ''; vc.style.transition = '';
+  document.getElementById('t-ph').style.display = 'inline';
+  document.getElementById('t-txt').style.display = 'none';
+  document.getElementById('t-txt').textContent = '';
+  document.getElementById('finish-btn').disabled = false;
+  setPauseIcon(false); isRec = false;
+  setTimeout(() => { rcv(); wt = 0; dw(); }, 200);
+  setTimeout(startRec, 350);
 }
 
 function doApply() {
   document.getElementById('applybtn').disabled = true;
-  document.getElementById('scope-sheet').classList.add('applying');
+  document.getElementById('morph-sheet').classList.add('applying');
   document.getElementById('proc-overlay').classList.add('show');
   document.getElementById('proc-spinner').style.display = 'flex';
   document.getElementById('proc-label').textContent = 'Applying…';
@@ -853,14 +936,15 @@ function doApply() {
     document.getElementById('proc-success').classList.add('show');
     setTimeout(() => {
       document.getElementById('proc-overlay').classList.remove('show');
-      document.getElementById('scope-sheet').classList.remove('applying');
-      hide('scope-sheet');
+      document.getElementById('morph-sheet').classList.remove('applying');
+      pendingActions = [];
+      // Collapse morph-sheet back to pill (restores FABs internally)
+      closeMorph();
       document.getElementById('backdrop').classList.remove('show');
       setTimeout(() => {
         document.getElementById('proc-spinner').style.display = 'flex';
         document.getElementById('proc-success').classList.remove('show');
         document.getElementById('applybtn').disabled = false;
-        pendingActions = [];
       }, 400);
     }, 1100);
   }, 600);
@@ -925,7 +1009,7 @@ function closeDrawer() {
 
 function closeAll() {
   closeMorph();
-  ['scope-sheet','drawer'].forEach(hide);
+  hide('drawer');
   document.getElementById('backdrop').classList.remove('show');
   // Always restore FABs (may have been hidden by finishVoice transition)
   const pill = document.getElementById('ai-pill'), plus = document.getElementById('plus-btn');
@@ -947,7 +1031,27 @@ function setPauseIcon(paused) {
 
 // ── INIT ──
 renderNotes();
-window.addEventListener('resize', () => { if (cv.offsetParent) rcv(); });
+window.addEventListener('resize', () => {
+  if (cv.offsetParent) rcv();
+  const ms = document.getElementById('morph-sheet');
+  if (ms.classList.contains('visible') && ms.classList.contains('open')) {
+    const maxW = Math.min(window.innerWidth - 48, 600);
+    ms.style.left = Math.round((window.innerWidth - maxW) / 2) + 'px';
+    ms.style.width = maxW + 'px';
+  }
+});
+
+const tTxt = document.getElementById('t-txt');
+tTxt.addEventListener('focus', () => { finalTranscript = tTxt.textContent.trimEnd() + ' '; });
+tTxt.addEventListener('input', () => {
+  if (suppressInputEvent) return;
+  isUserEditing = true;
+  clearTimeout(editTimer);
+  editTimer = setTimeout(() => { isUserEditing = false; }, 1200);
+  const txt = tTxt.textContent;
+  finalTranscript = txt.trim() ? txt.trimEnd() + ' ' : '';
+  updateLimitBar(txt.length);
+});
 </script>
 </body>
 </html>
