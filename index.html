@@ -95,7 +95,6 @@ body{display:flex;flex-direction:column}
 .chk.done{text-decoration:line-through;color:var(--nt-done)}
 .cb{width:16px;height:16px;border:1.5px solid var(--nt-cb);border-radius:3px;flex-shrink:0}
 .cb.checked{background:var(--nt-cb-check);border-color:transparent}
-.note-label{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:20px;font-size:11px;background:var(--nt-lbl-bg);color:var(--nt-lbl)}
 .note-date{font-size:11px;color:var(--nt-lbl);margin-top:8px;opacity:0.65}
 .note-card{position:relative}
 .note-pin-icon{position:absolute;top:10px;right:10px;opacity:0.35;width:16px;height:16px;pointer-events:none}
@@ -417,10 +416,6 @@ body{display:flex;flex-direction:column}
     <span class="sb-text">Notes</span>
   </button>
   <button class="sb-row">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-    <span class="sb-text">Edit labels</span>
-  </button>
-  <button class="sb-row">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></svg>
     <span class="sb-text">Archive</span>
   </button>
@@ -643,26 +638,26 @@ const SEED = [
    items:[{text:'Tomatoes',done:false},{text:'Garlic',done:false},{text:'Chicken breasts',done:false},{text:'Large onion',done:false},{text:'Parsley',done:true}]},
   {id:'n2',type:'image',color:'c-image',title:'Pomodoro app',body:'25×5 — do not allow user to change it — statistics for month',label:'',emoji:'🌸',imgData:'pomodoro-sketch.png',items:[]},
   {id:'n3',type:'text',color:'c-sand',title:'Prep for Annual Physical',label:'Health',
-   body:'Goal: Discuss knee pain.\n\nQuestions:\nBest exercises for stiffness?\nCould diet affect energy?',items:[]},
+   body:'Discuss knee pain not forget\n\n- Best exercises for stiffness?\n- Could diet affect energy?',items:[]},
   {id:'n4',type:'text',color:'c-green',title:'',label:'',
-   body:"Remember to water Sarah's garden and feed their cat while they're away next week.",items:[]},
+   body:"Remember to water Sarah's garden and feed their cat",items:[]},
   {id:'n5',type:'text',color:'c-white',title:'🚗 Car Info',label:'Cars & Transport',
-   body:'2018 Civic – 1G1FY2D37E5123456\nlast serviced 08-08-25\n\n2020 Golf – 4H1FY2D45E5123998\nlast serviced 09-07-23',items:[]},
+   body:'2018 Civic - 1G1FY2D37E5123456\nlast serviced 08-08-25\n\n2020 Golf - 4H1FY2D45E5123998\nlast serviced 09-07-23',items:[]},
   {id:'n6',type:'text',color:'c-purple',title:'Japan trip ✈️',label:'Travel',
-   body:'Hiking Nakasendo trail — need proper shoes.\n\nLooking at Salomon X Ultra 4 GTX or Merrell Moab 3 Waterproof. Salomon feels more stable on uneven terrain.\n\nDevices:\n→ Garmin inReach Mini 2 (GPS + satellite messaging)\n→ Anker 737 power bank — enough for 3 days off-grid',items:[]},
-  {id:'n7',type:'text',color:'c-yellow',title:'💡 Project ideas',label:'',
+   body:'Hiking Nakasendo trail - need proper shoes.\n\nLooking at Salomon X Ultra 4 GTX or Merrell Moab 3 Waterproof. Salomon feels more stable on uneven terrain.\n\nDevices:\n→ Garmin inReach Mini 2 (GPS + satellite messaging)\n→ Anker 737 power bank - enough for 3 days off-grid',items:[]},
+  {id:'n7',type:'text',color:'c-yellow',title:'💡 app ideas',label:'',
    body:'1. Redesign onboarding\n2. Habit tracker with streaks\n3. Read "Shape Up"',items:[]},
   {id:'n8',type:'text',color:'c-blue',title:'Weekend plan',label:'',
    body:'Saturday: gym at 9am, coffee with Jake\nSunday: farmers market',items:[]},
   {id:'n9',type:'checklist',color:'c-teal',title:'📚 Reading list',body:'',label:'',
    items:[{text:'Atomic Habits',done:true},{text:'The Mom Test',done:false},{text:'Shape Up',done:false}]},
   {id:'n10',type:'text',color:'c-pink',title:'',label:'',
-   body:'Call dentist to reschedule before end of month.',items:[]},
+   body:'Call dentist to reschedule before end of month',items:[]},
   {id:'n11',type:'text',color:'c-yellow',title:'slack → notion sync',label:'',
    body:'- reads slack, writes notion pages automatically\n- no manual input\n- weekly digest mode?\n- who even uses notion anymore lol',items:[]},
   {id:'n12',type:'text',color:'c-green',title:'',label:'',
-   body:'"You either die a hero or you live long enough to see yourself become the villain."\n\n— The Dark Knight',items:[]},
-  {id:'n13',type:'checklist',color:'c-blue',title:'Google interview prep',body:'',label:'',
+   body:'why so serious? dark knight',items:[]},
+  {id:'n13',type:'checklist',color:'c-blue',title:'Interview prep',body:'',label:'',
    items:[
      {text:'LeetCode: trees & graphs (2hr/day)',done:false},
      {text:'System design: URL shortener',done:true},
@@ -674,9 +669,9 @@ const SEED = [
   {id:'n14',type:'text',color:'c-sand',title:'twitter feed blocker ext',label:'',
    body:'- after 20min replace feed w/ your own notes\n- no settings just block\n- whitelist for weekends maybe\ntodo: check if firefox allows this',items:[]},
   {id:'n15',type:'text',color:'c-white',title:'',label:'',
-   body:'Tuesday felt weirdly long. Got a lot done but can\'t point at what exactly. Had that 3pm slump again. Need to stop scheduling calls after lunch.',items:[]},
-  {id:'n16',type:'text',color:'c-pink',title:'Arrival (2016)',label:'',
-   body:'"If you could see your whole life from start to finish, would you change things?"\n\nRewatched this. Still hits differently every time.',items:[]},
+   body:'Tuesday felt weirdly long. Got a lot done but can\'t point at what exactly. Had that 3pm slump again. Need to stop scheduling calls after lunch',items:[]},
+  {id:'n16',type:'text',color:'c-pink',title:'Arrival',label:'',
+   body:'If you could see your whole life from start to finish, would you change things?',items:[]},
   {id:'n17',type:'text',color:'c-teal',title:'voice journal app',label:'',
    body:'voice memo → daily log → weekly email summary\n- no typing ever\n- gpt structures it\n- send to self every sunday 9am\nname idea: mumble / logit',items:[]},
   {id:'n18',type:'checklist',color:'c-purple',title:'Mountain Trip Essentials',body:'',label:'Travel',
@@ -689,7 +684,7 @@ const SEED = [
      {text:'Download offline maps',done:false},
    ]},
   {id:'n19',type:'text',color:'c-orange',title:'',label:'',
-   body:'Important Reminder:\nRemember garden and feed their cat while they\'re away.',items:[]},
+   body:'Important Reminder:\nRemember garden and feed their cat while they\'re away',items:[]},
 ];
 
 // ── STATE ──
@@ -765,7 +760,6 @@ function renderNote(n) {
   const fs = adaptiveFont(n);
   const pin = n.pinned ? PIN_SVG : '';
   const title = n.title ? `<div class="note-title" style="font-size:${fs.title}">${esc(n.title)}</div>` : '';
-  const label = n.label ? `<span class="note-label">${esc(n.label)}</span>` : '';
   const date = n.updatedAt ? `<div class="note-date">${formatDate(n.updatedAt)}</div>` : '';
   let content = '';
   if (n.type === 'checklist' && n.items && n.items.length) {
@@ -776,7 +770,7 @@ function renderNote(n) {
     const bodyText = (n.body||'').replace(/<[^>]*>/g,'');
     content = `<div class="note-body" style="font-size:${fs.content}">${escNl(bodyText)}</div>`;
   }
-  return `<div class="note-card ${n.color||'c-white'}" data-id="${n.id}">${pin}${title}${content}${label}${date}</div>`;
+  return `<div class="note-card ${n.color||'c-white'}" data-id="${n.id}">${pin}${title}${content}${date}</div>`;
 }
 
 function renderNotes() {
