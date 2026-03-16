@@ -62,8 +62,9 @@ body{display:flex;flex-direction:column}
 .pill-menu-btn{width:44px;height:44px;border-radius:50%;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);flex-shrink:0;transition:background .15s}
 .pill-menu-btn:active{background:rgba(0,0,0,0.08)}
 .pill-search-text{flex:1;font-size:15px;color:var(--t2);pointer-events:none;user-select:none}
-.avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;margin-left:auto;cursor:pointer;padding:2px;box-sizing:border-box;background:conic-gradient(#4285F4,#EA4335,#FBBC05,#34A853,#4285F4);overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;border:2px solid var(--s2);box-sizing:border-box}
+.avatar{width:38px;height:38px;border-radius:50%;background:conic-gradient(from -45deg,#4285F4 0deg 90deg,#EA4335 90deg 180deg,#FBBC05 180deg 270deg,#34A853 270deg 360deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;cursor:pointer}
+.avatar-gap{width:34px;height:34px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center}
+.avatar img{width:30px;height:30px;border-radius:50%;object-fit:cover;display:block}
 .take-note-wrap{display:none}
 
 /* ── TAKE NOTE BAR ── */
@@ -317,8 +318,9 @@ body{display:flex;flex-direction:column}
   .sb-top .sb-icon-btn:last-child{transition:opacity .2s}
 }
 .sb-sep{height:1px;background:var(--border);margin:4px 16px 8px;flex-shrink:0}
-.sb-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;overflow:hidden;padding:2px;box-sizing:border-box;background:conic-gradient(#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)}
-.sb-avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:conic-gradient(from -45deg,#4285F4 0deg 90deg,#EA4335 90deg 180deg,#FBBC05 180deg 270deg,#34A853 270deg 360deg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-avatar-gap{width:28px;height:28px;border-radius:50%;background:#E8E5DF;display:flex;align-items:center;justify-content:center}
+.sb-avatar img{width:24px;height:24px;border-radius:50%;object-fit:cover;display:block}
 
 /* ══ DESKTOP LAYOUT ══ */
 #app{--cols:2}
@@ -428,7 +430,7 @@ body{display:flex;flex-direction:column}
   </button>
   <div style="flex:1"></div>
   <button class="sb-row sb-user" style="padding-left:8px" ondblclick="resetToDefaults()">
-    <div class="sb-avatar"><img src="avatar.jpg" alt=""></div>
+    <div class="sb-avatar"><div class="sb-avatar-gap"><img src="avatar.jpg" alt=""></div></div>
     <span class="sb-text">Jake Morrison</span>
   </button>
 </div>
@@ -441,7 +443,7 @@ body{display:flex;flex-direction:column}
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
       </button>
       <span class="pill-search-text">Search your notes</span>
-      <div class="avatar" ondblclick="resetToDefaults()"><img src="avatar.jpg" alt=""></div>
+      <div class="avatar" ondblclick="resetToDefaults()"><div class="avatar-gap"><img src="avatar.jpg" alt=""></div></div>
     </div>
   </div>
 
