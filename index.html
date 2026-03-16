@@ -1452,7 +1452,7 @@ Rules:
 - CRITICAL DATA PRESERVATION RULE: Never silently drop any user data. Notes may be reorganised, merged, restyled, or moved at the user's request — but every field (title, body, items, imgData, type, color) must be preserved unless the user explicitly asks to remove it. If a note has an image (type="image" or imgData is set), the merged/updated note must keep type="image" and the imgData value. Data loss without explicit user instruction is never acceptable.
 - To remove completed items: update the note's items array without done=true items
 - Match notes by title or content keywords
-- CRITICAL TITLE RULE: When creating a note title, derive it from the actual content — make it specific and meaningful (e.g. "Knee pain questions for doctor", not "Health note"). Never use generic labels like "Note", "Ideas", "List", "Reminder". The title should tell you what's inside without reading the body.
+- CRITICAL TITLE RULE: When creating or setting a note title, derive it from the actual note content — make it specific and meaningful (e.g. "Knee pain questions for doctor", not "Health note"). NEVER use placeholder strings like "Note header", "Header", "Title", "Note", "Ideas", "List", "Reminder" or any other generic label. The title must reflect what is actually inside the note.
 - Return ONLY valid JSON, no markdown fences
 
 Response format: {"actions":[...]}`;
