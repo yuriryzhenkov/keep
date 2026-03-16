@@ -1460,20 +1460,26 @@ Rules:
 
 Response format: {"actions":[...]}`;
 
+  const payload = {
+    model: 'claude-haiku-4-5',
+    max_tokens: 8192,
+    system,
+    messages: [{
+      role: 'user',
+      content: `Current notes:\n${JSON.stringify(notesCtx, null, 2)}\n\nVoice command: "${transcript}"`
+    }]
+  };
+  console.group('🤖 API request');
+  console.log('system:', system);
+  console.log('user:', payload.messages[0].content);
+  console.groupEnd();
+
   const resp = await fetch(PROXY_URL, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
     },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5',
-      max_tokens: 8192,
-      system,
-      messages: [{
-        role: 'user',
-        content: `Current notes:\n${JSON.stringify(notesCtx, null, 2)}\n\nVoice command: "${transcript}"`
-      }]
-    })
+    body: JSON.stringify(payload)
   });
 
   if (!resp.ok) {
@@ -1483,6 +1489,9 @@ Response format: {"actions":[...]}`;
 
   const data = await resp.json();
   const text = (data.content[0]?.text || '').trim();
+  console.group('🤖 API response');
+  console.log('raw:', text);
+  console.groupEnd();
   const match = text.match(/\{[\s\S]*\}/);
   if (!match) throw new Error('Could not parse Claude response');
   return JSON.parse(match[0]);
