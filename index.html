@@ -595,27 +595,22 @@ function closeMorph() {
   cancelAnimationFrame(af);
 }
 
-function startRec() {
+function makeRecognition() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    document.getElementById('t-ph').textContent = 'Voice recognition not supported. Try Chrome or Safari.';
-    return;
-  }
-  if (recognition) { try { recognition.abort(); } catch(e) {} }
+  if (!SR) return null;
+  const r = new SR();
+  r.lang = localStorage.getItem('voiceLang') || 'en-US';
+  r.continuous = true;
+  r.interimResults = true;
 
-  recognition = new SR();
-  recognition.lang = localStorage.getItem('voiceLang') || 'en-US';
-  recognition.continuous = true;
-  recognition.interimResults = true;
-
-  recognition.onstart = () => {
+  r.onstart = () => {
     isRec = true; wt = 13;
     setPauseIcon(false);
     document.getElementById('t-ph').style.display = 'none';
     document.getElementById('t-txt').style.display = 'inline';
   };
 
-  recognition.onresult = (e) => {
+  r.onresult = (e) => {
     let interim = '';
     finalTranscript = '';
     for (let i = 0; i < e.results.length; i++) {
@@ -626,12 +621,11 @@ function startRec() {
     if (!isUserEditing) { suppressInputEvent = true; tEl.textContent = (finalTranscript + interim).trim(); suppressInputEvent = false; }
     updateLimitBar(tEl.textContent.length);
     if (tEl.textContent.length >= TRANSCRIPT_LIMIT) { stopRec(); return; }
-    // Burst wave yellow on each speech event
     wt = 13; clearTimeout(wtDecayTimer);
     wtDecayTimer = setTimeout(() => { wt = 0; }, 700);
   };
 
-  recognition.onerror = (e) => {
+  r.onerror = (e) => {
     if (e.error === 'aborted') return;
     const ph = document.getElementById('t-ph');
     document.getElementById('t-txt').style.display = 'none';
@@ -642,12 +636,27 @@ function startRec() {
     isRec = false; wt = 0; setPauseIcon(true);
   };
 
-  recognition.onend = () => {
+  // Recreate on each end so iOS always gets fresh lang/settings
+  r.onend = () => {
     if (isRec) {
-      setTimeout(() => { try { recognition.start(); } catch(e) {} }, 120);
+      setTimeout(() => {
+        recognition = makeRecognition();
+        if (recognition) try { recognition.start(); } catch(e) {}
+      }, 120);
     }
   };
 
+  return r;
+}
+
+function startRec() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.getElementById('t-ph').textContent = 'Voice recognition not supported. Try Chrome or Safari.';
+    return;
+  }
+  if (recognition) { try { recognition.abort(); } catch(e) {} }
+  recognition = makeRecognition();
   try { recognition.start(); } catch(e) {
     document.getElementById('t-ph').textContent = 'Could not start mic. Try refreshing.';
   }
